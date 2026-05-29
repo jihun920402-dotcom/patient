@@ -1,4 +1,4 @@
-import { invoices, patients, nextInvoiceNo, uid } from '../../utils/mockDb';
+import { invoices, patients, nextInvoiceNo, uid, saveSnapshot } from '../../utils/mockDb';
 import { Errors } from '../../utils/errors';
 import type { Invoice, CreateInvoiceDto, CreatePaymentDto, Payment } from '@hospital-ms/shared';
 
@@ -61,6 +61,7 @@ export const billingService = {
 
     newInvoice.items = items.map((item) => ({ ...item, invoiceId: newInvoice.id }));
     invoices.push(newInvoice as typeof invoices[0]);
+    saveSnapshot();
     return newInvoice;
   },
 
@@ -95,6 +96,7 @@ export const billingService = {
       updatedAt: now(),
     };
 
+    saveSnapshot();
     return { invoice: invoices[idx], payment };
   },
 

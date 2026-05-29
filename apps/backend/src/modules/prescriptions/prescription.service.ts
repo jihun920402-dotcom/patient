@@ -1,4 +1,4 @@
-import { prescriptions, medications, patients, users, nextPrescriptionNo, uid } from '../../utils/mockDb';
+import { prescriptions, medications, patients, users, nextPrescriptionNo, uid, saveSnapshot } from '../../utils/mockDb';
 import { Errors } from '../../utils/errors';
 import type { Prescription, CreatePrescriptionDto } from '@hospital-ms/shared';
 
@@ -59,6 +59,7 @@ export const prescriptionService = {
 
     newPresc.items = items.map((item) => ({ ...item, prescriptionId: newPresc.id }));
     prescriptions.push(newPresc as typeof prescriptions[0]);
+    saveSnapshot();
     return newPresc;
   },
 
@@ -73,6 +74,7 @@ export const prescriptionService = {
       dispensedBy: pharmacistId,
       updatedAt: now(),
     };
+    saveSnapshot();
     return prescriptions[idx];
   },
 

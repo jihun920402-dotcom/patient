@@ -5,6 +5,7 @@ import {
   icd10Codes,
   nextRecordNo,
   uid,
+  saveSnapshot,
 } from '../../utils/mockDb';
 import { Errors } from '../../utils/errors';
 import type {
@@ -63,6 +64,7 @@ export const emrService = {
       updatedAt: now(),
     };
     medicalRecords.push(newRecord);
+    saveSnapshot();
     return newRecord;
   },
 
@@ -70,6 +72,7 @@ export const emrService = {
     const idx = medicalRecords.findIndex((r) => r.id === id);
     if (idx === -1) throw Errors.NotFound('진료 기록');
     medicalRecords[idx] = { ...medicalRecords[idx], ...data, updatedAt: now() };
+    saveSnapshot();
     return this.findById(id);
   },
 
@@ -89,6 +92,7 @@ export const emrService = {
       createdAt: now(),
     };
     recordDiagnoses.push(diagnosis);
+    saveSnapshot();
     return diagnosis;
   },
 
@@ -96,6 +100,7 @@ export const emrService = {
     const idx = recordDiagnoses.findIndex((d) => d.id === diagnosisId);
     if (idx === -1) throw Errors.NotFound('진단');
     recordDiagnoses.splice(idx, 1);
+    saveSnapshot();
   },
 
   addLabResult(data: Omit<LabResult, 'id' | 'createdAt'>): LabResult {
@@ -108,6 +113,7 @@ export const emrService = {
       createdAt: now(),
     };
     labResults.push(result);
+    saveSnapshot();
     return result;
   },
 

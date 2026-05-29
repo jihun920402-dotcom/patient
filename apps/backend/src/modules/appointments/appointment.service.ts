@@ -5,6 +5,7 @@ import {
   departments,
   nextAppointmentNo,
   uid,
+  saveSnapshot,
 } from '../../utils/mockDb';
 import { Errors } from '../../utils/errors';
 import type { Appointment, CreateAppointmentDto, UpdateAppointmentDto } from '@hospital-ms/shared';
@@ -94,6 +95,7 @@ export const appointmentService = {
     };
 
     appointments.push(newAppt);
+    saveSnapshot();
     return enrich(newAppt);
   },
 
@@ -102,6 +104,7 @@ export const appointmentService = {
     if (idx === -1) throw Errors.NotFound('예약');
 
     appointments[idx] = { ...appointments[idx], ...data, updatedAt: now() };
+    saveSnapshot();
     return enrich(appointments[idx]);
   },
 
@@ -117,6 +120,7 @@ export const appointmentService = {
       cancelReason: reason,
       updatedAt: now(),
     };
+    saveSnapshot();
     return enrich(appointments[idx]);
   },
 

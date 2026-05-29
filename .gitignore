@@ -5,3 +5,5 @@ dist
 *.log
 .turbo
 coverage
+apps/backend/data/snapshot.json
+apps/data/

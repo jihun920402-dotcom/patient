@@ -1,4 +1,4 @@
-import { patients, nextPatientNo, uid } from '../../utils/mockDb';
+import { patients, nextPatientNo, uid, saveSnapshot } from '../../utils/mockDb';
 import { encrypt } from '../../utils/crypto';
 import { Errors } from '../../utils/errors';
 import type { Patient, CreatePatientDto, UpdatePatientDto, PatientListResponse } from '@hospital-ms/shared';
@@ -61,6 +61,7 @@ export const patientService = {
     }
 
     patients.push(newPatient);
+    saveSnapshot();
     return newPatient;
   },
 
@@ -82,6 +83,7 @@ export const patientService = {
     }
 
     patients[idx] = updated;
+    saveSnapshot();
     return updated;
   },
 
@@ -89,5 +91,6 @@ export const patientService = {
     const idx = patients.findIndex((p) => p.id === id);
     if (idx === -1) throw Errors.NotFound('환자');
     patients[idx] = { ...patients[idx], isActive: false, updatedAt: now() };
+    saveSnapshot();
   },
 };
